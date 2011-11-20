@@ -117,6 +117,7 @@ public class GitAPI implements IGitAPI {
             catch(Exception ex)
             {
                 listener.getLogger().println("Workspace has a .git repository, but it appears to be corrupt.");
+		listener.getLogger().println("Got the exception: " + ex.toString());
                 return false;
             }
             return true;
