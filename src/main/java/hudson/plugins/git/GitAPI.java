@@ -118,6 +118,7 @@ public class GitAPI implements IGitAPI {
             {
                 listener.getLogger().println("Workspace has a .git repository, but it appears to be corrupt.");
 		listener.getLogger().println("Got the exception: " + ex.toString());
+		ex.printStackTrace(listener.getLogger());
                 return false;
             }
             return true;
@@ -278,13 +279,14 @@ public class GitAPI implements IGitAPI {
 
     private String firstLine(String result) {
         BufferedReader reader = new BufferedReader(new StringReader(result));
-        String line;
+        String line, line2;
         try {
             line = reader.readLine();
             if (line == null)
                 return null;
-            if (reader.readLine() != null)
-                throw new GitException("Result has multiple lines");
+            line2 = reader.readLine();
+            if (line2 != null)
+                throw new GitException("Result has multiple lines - first line was: " + line + " and the next was " + line2);
         } catch (IOException e) {
             throw new GitException("Error parsing result", e);
         }
